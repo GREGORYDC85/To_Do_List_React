@@ -1,0 +1,237 @@
+/* === BASE LIGHT MODE === */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 40px 20px;
+  background: linear-gradient(to bottom, #ffffff, #ffd700);
+  color: #333;
+  transition: background 0.4s, color 0.3s;
+}
+
+/* CONTAINER */
+.todo-container {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 25px;
+  border-radius: 12px;
+  max-width: 600px;
+  margin: auto;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  transition: background 0.3s, color 0.3s;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  text-align: center;
+  color: #333;
+}
+
+/* FORM */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+form input[type="text"] {
+  padding: 20px;
+  font-size: 1.2em;
+  height: 60px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  flex: 2;
+  min-width: 200px;
+  box-sizing: border-box;
+  transition: border 0.3s;
+}
+
+form select,
+form input[type="date"] {
+  padding: 10px;
+  font-size: 1em;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  flex: 1;
+  min-width: 120px;
+  box-sizing: border-box;
+  transition: border 0.3s;
+}
+
+form button {
+  width: 150px;
+  align-self: center;
+}
+
+form input[type="text"]:focus,
+form select:focus,
+form input[type="date"]:focus {
+  outline: none;
+  border-color: #ffbb00;
+}
+
+button {
+  cursor: pointer;
+  font-size: 1em;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #ffbb00;
+  color: white;
+  transition: background 0.2s, transform 0.1s;
+}
+
+button:hover {
+  background-color: #cc9900;
+}
+
+/* FILTRES */
+.filters {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.filters button {
+  margin: 0 5px;
+  background-color: #eee;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.filters button:hover {
+  background-color: #ddd;
+}
+
+/* LISTE DE TÂCHES */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background: #f9f9f9;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+li.done span {
+  text-decoration: line-through;
+  color: gray;
+}
+
+/* DETAILS DE TÂCHE */
+li div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+li div.todo-details {
+  margin-top: 5px;
+  gap: 8px;
+}
+
+li input[type="text"] {
+  padding: 8px;
+  font-size: 1em;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  flex: 1;
+}
+
+/* PRIORITÉ */
+.priority {
+  font-size: 0.8em;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  color: white;
+  text-transform: capitalize;
+  margin-right: 8px;
+}
+
+.priority.haute {
+  background-color: #e74c3c;
+}
+
+.priority.moyenne {
+  background-color: #f39c12;
+}
+
+.priority.basse {
+  background-color: #2ecc71;
+}
+
+/* DATE */
+.deadline {
+  font-size: 0.8em;
+  color: #555;
+}
+body.dark .deadline {
+  color: #ccc;
+}
+
+/* === DARK MODE === */
+body.dark {
+  background: linear-gradient(to bottom, #6a0dad, #1a1a1a);
+  color: white;
+}
+
+body.dark .todo-container {
+  background: rgba(30, 30, 30, 0.95);
+  color: white;
+}
+
+body.dark input,
+body.dark select,
+body.dark button {
+  background: #333;
+  color: white;
+  border: 1px solid #666;
+}
+
+body.dark .filters button {
+  background: #444;
+  color: white;
+}
+
+body.dark li {
+  background: #2a2a2a;
+}
+
+/* BOUTON MODE SOMBRE / CLAIR FIXÉ EN BAS À DROITE */
+.theme-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  padding: 10px 15px;
+  border-radius: 20px;
+  background-color: #ffbb00;
+  color: white;
+  border: none;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s;
+}
+
+.theme-toggle:hover {
+  background-color: #cc9900;
+}
+
+body.dark .theme-toggle {
+  background-color: #6a0dad;
+  color: #fff;
+}
+
+body.dark .theme-toggle:hover {
+  background-color: #4e0c87;
+}
