@@ -1,112 +1,30 @@
-import { useState, useEffect } from "react";
-import TodoItem from "./components/TodoItem";
+// src/App.jsx
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./auth/AuthContext";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import ToDoApp from "./pages/ToDoApp"; // ✅ Casse corrigée ici
+import Navbar from "./components/Navbar";
 
 export default function App() {
-  const [todos, setTodos] = useState(() => {
-    const saved = localStorage.getItem("todos");
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  const [newTodo, setNewTodo] = useState("");
-  const [priority, setPriority] = useState("moyenne");
-  const [deadline, setDeadline] = useState(null);
-  const [filter, setFilter] = useState("all");
-  const [dark, setDark] = useState(false);
-
-  useEffect(() => {
-    document.body.className = dark ? "dark" : "";
-  }, [dark]);
-
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
-
-  const addTodo = (e) => {
-    e.preventDefault();
-    if (newTodo.trim() === "") return;
-
-    setTodos([
-      ...todos,
-      {
-        text: newTodo.trim(),
-        done: false,
-        editing: false,
-        priority,
-        deadline,
-      },
-    ]);
-    setNewTodo("");
-    setPriority("moyenne");
-    setDeadline(null);
-  };
-
-  const updateTodo = (index, updated) => {
-    const newTodos = [...todos];
-    newTodos[index] = updated;
-    setTodos(newTodos);
-  };
-
-  const deleteTodo = (index) => {
-    setTodos(todos.filter((_, i) => i !== index));
-  };
+  const { user } = useAuth();
 
   return (
-    <div className="todo-container">
-      <h1>📝 Ma To-Do List</h1>
-
-      <form onSubmit={addTodo}>
-        <input
-          value={newTodo}
-          onChange={(e) => setNewTodo(e.target.value)}
-          placeholder="Nouvelle tâche..."
-          className="task-input"
+    <>
+      <Navbar />
+      <Routes>
+        {/* Redirige vers /todo si connecté, sinon vers /login */}
+        <Route
+          path="/"
+          element={user ? <Navigate to="/todo" /> : <Navigate to="/login" />}
         />
-        <select
-          value={priority}
-          onChange={(e) => setPriority(e.target.value)}
-          className="priority-select"
-        >
-          <option value="moyenne">Priorité Moyenne</option>
-          <option value="haute">Haute</option>
-          <option value="basse">Basse</option>
-        </select>
-        <input
-          type="date"
-          value={deadline || ""}
-          onChange={(e) => setDeadline(e.target.value)}
-          className="date-input"
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route
+          path="/todo"
+          element={user ? <ToDoApp /> : <Navigate to="/login" />} // ✅ Casse corrigée ici aussi
         />
-        <button type="submit">Ajouter</button>
-      </form>
-
-      <div className="filters">
-        <button onClick={() => setFilter("all")}>Toutes</button>
-        <button onClick={() => setFilter("done")}>Terminées</button>
-        <button onClick={() => setFilter("todo")}>À faire</button>
-      </div>
-
-      <ul>
-        {todos
-          .filter((todo) =>
-            filter === "all"
-              ? true
-              : filter === "done"
-              ? todo.done
-              : !todo.done
-          )
-          .map((todo, index) => (
-            <TodoItem
-              key={index}
-              todo={todo}
-              onUpdate={(updated) => updateTodo(index, updated)}
-              onDelete={() => deleteTodo(index)}
-            />
-          ))}
-      </ul>
-
-      <button className="theme-toggle" onClick={() => setDark(!dark)}>
-        {dark ? "☀️ Mode clair" : "🌙 Mode sombre"}
-      </button>
-    </div>
+      </Routes>
+    </>
   );
 }

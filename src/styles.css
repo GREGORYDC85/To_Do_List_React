@@ -235,3 +235,159 @@ body.dark .theme-toggle {
 body.dark .theme-toggle:hover {
   background-color: #4e0c87;
 }
+
+form input {
+  margin-bottom: 10px;
+}
+form input, form button {
+  width: 100%;
+  box-sizing: border-box;
+}
+.todo-container form {
+  max-width: 350px;
+  margin: auto;
+}
+
+.login-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 400px;
+  margin: 60px auto;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-container input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 12px;
+  font-size: 1em;
+  background-color: #ffbb00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  background-color: #cc9900;
+}
+
+body.dark .login-container {
+  background: rgba(40, 40, 40, 0.95);
+}
+
+body.dark .login-container input {
+  background: #333;
+  color: white;
+  border: 1px solid #666;
+}
+
+body.dark .login-container button {
+  background-color: #6a0dad;
+}
+
+body.dark .login-container button:hover {
+  background-color: #4e0c87;
+}
+
+.navbar {
+  background-color: #fff;
+  padding: 10px 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.navbar-links a,
+.navbar-links button {
+  margin-left: 15px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.navbar-links button:hover,
+.navbar-links a:hover {
+  color: #ffbb00;
+}
+
+body.dark .navbar {
+  background-color: #222;
+  color: white;
+}
+
+body.dark .navbar-links a,
+body.dark .navbar-links button {
+  color: white;
+}
+
+body.dark .navbar-links a:hover,
+body.dark .navbar-links button:hover {
+  color: #ffd700;
+}
+
+.todo-main {
+  font-size: 1.1em;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.todo-details {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.todo-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.todo-actions button {
+  padding: 6px 10px;
+  font-size: 1em;
+  border-radius: 6px;
+  background-color: #eee;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+.todo-actions button:hover {
+  background-color: #ddd;
+}
+
+body.dark .todo-actions button {
+  background-color: #444;
+  color: white;
+  border: 1px solid #666;
+}
+
+body.dark .todo-actions button:hover {
+  background-color: #555;
+}

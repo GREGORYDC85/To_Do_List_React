@@ -13,7 +13,7 @@ export default function TodoItem({ todo, onUpdate, onDelete }) {
 
   const saveEdit = () => {
     if (editText.trim() !== "") {
-      onUpdate({ ...todo, text: editText, editing: false });
+      onUpdate({ ...todo, text: editText.trim(), editing: false });
     }
   };
 
@@ -31,16 +31,17 @@ export default function TodoItem({ todo, onUpdate, onDelete }) {
             value={editText}
             onChange={(e) => setEditText(e.target.value)}
           />
-          <div>
+          <div className="todo-actions">
             <button onClick={saveEdit}>✅</button>
             <button onClick={cancelEdit}>❌</button>
           </div>
         </>
       ) : (
         <>
-          <div>
+          <div className="todo-main">
             <span>{todo.text}</span>
           </div>
+
           <div className="todo-details">
             <span className={`priority ${todo.priority}`}>
               {todo.priority}
@@ -51,7 +52,8 @@ export default function TodoItem({ todo, onUpdate, onDelete }) {
               </span>
             )}
           </div>
-          <div>
+
+          <div className="todo-actions">
             <button onClick={toggleDone}>
               {todo.done ? "↩️" : "✔️"}
             </button>
