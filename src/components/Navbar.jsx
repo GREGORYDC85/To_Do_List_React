@@ -1,3 +1,4 @@
+// src/components/Navbar.jsx
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import { auth } from "../firebase";
@@ -15,13 +16,17 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar-links">
-        {!user && (
+        {!user ? (
           <>
             <Link to="/login">Connexion</Link>
             <Link to="/signup">Inscription</Link>
           </>
+        ) : (
+          <>
+            <span>👤 {user.email}</span>
+            <button onClick={handleLogout}>Déconnexion</button>
+          </>
         )}
-        {user && <button onClick={handleLogout}>Déconnexion</button>}
       </div>
     </nav>
   );

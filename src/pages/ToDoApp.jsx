@@ -44,18 +44,6 @@ export default function ToDoApp() {
     document.body.className = dark ? "dark" : "";
   }, [dark]);
 
-  // 🔔 Notification si tâches urgentes (aujourd'hui ou dépassées)
-  useEffect(() => {
-    const today = new Date().toISOString().split("T")[0];
-    const urgentes = todos.filter(
-      (todo) => todo.deadline && !todo.done && todo.deadline <= today
-    );
-
-    if (urgentes.length > 0) {
-      alert(`⏰ Attention ! ${urgentes.length} tâche(s) sont urgentes ou en retard.`);
-    }
-  }, [todos]);
-
   const addTodo = async (e) => {
     e.preventDefault();
     if (newTodo.trim() === "") return;
@@ -85,28 +73,13 @@ export default function ToDoApp() {
     await deleteDoc(ref);
   };
 
+  const completedCount = todos.filter((t) => t.done).length;
+  const totalCount = todos.length;
+  const progress = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
+
   return (
     <div className="todo-container">
       <h1>📝 Ma To-Do List</h1>
-
-      {/* ✅ Infos globales */}
-      <div style={{ textAlign: "center", marginBottom: "15px" }}>
-        <strong>Total :</strong> {todos.length} tâches –{" "}
-        <strong>Terminées :</strong> {todos.filter((t) => t.done).length}
-      </div>
-
-      {/* 🔔 Message visuel si tâches urgentes */}
-      {todos.some(todo => todo.deadline && !todo.done && todo.deadline <= new Date().toISOString().split("T")[0]) && (
-        <div style={{
-          background: "#ffcc00",
-          padding: "10px",
-          marginBottom: "15px",
-          borderRadius: "8px",
-          textAlign: "center"
-        }}>
-          ⚠️ Vous avez des tâches urgentes ou en retard !
-        </div>
-      )}
 
       <form onSubmit={addTodo}>
         <input
@@ -137,6 +110,18 @@ export default function ToDoApp() {
         <button onClick={() => setFilter("all")}>Toutes</button>
         <button onClick={() => setFilter("done")}>Terminées</button>
         <button onClick={() => setFilter("todo")}>À faire</button>
+      </div>
+
+      <div className="progress-bar-container">
+        <div className="progress-bar">
+          <div
+            className="progress-fill"
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+        <p style={{ textAlign: "center", fontSize: "0.9em" }}>
+          {completedCount} sur {totalCount} tâches terminées
+        </p>
       </div>
 
       <ul>
