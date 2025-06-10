@@ -4,22 +4,22 @@ export default function TodoItem({ todo, onUpdate, onDelete }) {
   const [editText, setEditText] = useState(todo.text);
 
   const toggleDone = () => {
-    onUpdate({ ...todo, done: !todo.done });
+    onUpdate({ done: !todo.done });
   };
 
   const startEdit = () => {
-    onUpdate({ ...todo, editing: true });
+    onUpdate({ editing: true });
   };
 
   const saveEdit = () => {
     if (editText.trim() !== "") {
-      onUpdate({ ...todo, text: editText.trim(), editing: false });
+      onUpdate({ text: editText.trim(), editing: false });
     }
   };
 
   const cancelEdit = () => {
     setEditText(todo.text);
-    onUpdate({ ...todo, editing: false });
+    onUpdate({ editing: false });
   };
 
   return (

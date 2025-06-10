@@ -2,23 +2,23 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import TodoItem from "../components/TodoItem.jsx";
+import { db } from "../firebase";
+import {
+  collection,
+  addDoc,
+  onSnapshot,
+  query,
+  where,
+  doc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
 
 export default function ToDoApp() {
-  const { user } = useAuth();           // 🔒 Récupère l'utilisateur connecté
-  const navigate = useNavigate();       // 🔄 Pour redirection
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
-  // 🔐 Redirige vers /login si l'utilisateur n'est pas connecté
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
-  }, [user, navigate]);
-
-  const [todos, setTodos] = useState(() => {
-    const saved = localStorage.getItem("todos");
-    return saved ? JSON.parse(saved) : [];
-  });
-
+  const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
   const [priority, setPriority] = useState("moyenne");
   const [deadline, setDeadline] = useState("");
@@ -26,41 +26,51 @@ export default function ToDoApp() {
   const [dark, setDark] = useState(false);
 
   useEffect(() => {
+    if (!user) return navigate("/login");
+
+    const q = query(collection(db, "todos"), where("uid", "==", user.uid));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const items = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setTodos(items);
+    });
+
+    return () => unsubscribe();
+  }, [user, navigate]);
+
+  useEffect(() => {
     document.body.className = dark ? "dark" : "";
   }, [dark]);
 
-  useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
-
-  const addTodo = (e) => {
+  const addTodo = async (e) => {
     e.preventDefault();
     if (newTodo.trim() === "") return;
 
-    setTodos([
-      ...todos,
-      {
-        text: newTodo.trim(),
-        done: false,
-        editing: false,
-        priority,
-        deadline,
-      },
-    ]);
+    await addDoc(collection(db, "todos"), {
+      uid: user.uid,
+      text: newTodo.trim(),
+      done: false,
+      editing: false,
+      priority,
+      deadline,
+    });
 
     setNewTodo("");
     setPriority("moyenne");
     setDeadline("");
   };
 
-  const updateTodo = (index, updated) => {
-    const newTodos = [...todos];
-    newTodos[index] = updated;
-    setTodos(newTodos);
+  const updateTodo = async (changes) => {
+    const ref = doc(db, "todos", changes.id);
+    const { id, ...updatedFields } = changes;
+    await updateDoc(ref, updatedFields);
   };
 
-  const deleteTodo = (index) => {
-    setTodos(todos.filter((_, i) => i !== index));
+  const deleteTodo = async (id) => {
+    const ref = doc(db, "todos", id);
+    await deleteDoc(ref);
   };
 
   return (
@@ -107,12 +117,12 @@ export default function ToDoApp() {
               ? todo.done
               : !todo.done
           )
-          .map((todo, index) => (
+          .map((todo) => (
             <TodoItem
-              key={index}
+              key={todo.id}
               todo={todo}
-              onUpdate={(updated) => updateTodo(index, updated)}
-              onDelete={() => deleteTodo(index)}
+              onUpdate={(changes) => updateTodo({ ...todo, ...changes })}
+              onDelete={() => deleteTodo(todo.id)}
             />
           ))}
       </ul>
