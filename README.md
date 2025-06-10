@@ -1,28 +1,32 @@
-# To_Do_List_React
+# 📝 Ma To-Do List React + Firebase
 
-Application React de To-Do List
-Une application To-Do List moderne construite avec **React**, qui permet de :
+Bienvenue dans **Ma To-Do List**, une application web permettant de **gérer des tâches personnelles** avec un système d’authentification sécurisé. Elle a été développée en **React** avec **Firebase** pour l’authentification et le stockage des données.
 
-- Ajouter des tâches
-- Les marquer comme terminées
-- Modifier et supprimer des tâches
-- Filtrer par statut : Toutes / À faire / Terminées
-- Définir une **priorité** (haute, moyenne, basse)
-- Spécifier une **date limite**
-- Passer en **mode sombre / clair**
+## 🚀 Fonctionnalités
 
-  ## 🔧 Fonctionnalités
+- ✅ **Ajout, édition et suppression de tâches**
+- 🎨 **Thème clair / sombre** au choix
+- 📅 **Deadline** et **niveau de priorité** pour chaque tâche
+- 🔐 **Connexion / Inscription** avec Firebase Authentication
+- 🔄 **Synchronisation des données dans le cloud** (Firestore) : les tâches sont accessibles depuis n’importe quel appareil
+- 📱 Responsive : compatible ordinateur et mobile
 
-- ✅ Ajout, édition, suppression de tâches
-- ⏰ Gestion de la date limite (deadline)
-- ⚠️ Priorisation des tâches
-- 🔍 Filtres dynamiques
-- 🌙 Thème sombre/claire
-- 💾 Persistance avec **localStorage**
+## 🔧 Technologies utilisées
 
-## 🛠️ Technologies utilisées
+- **React** (Vite)
+- **Firebase** (Authentication + Firestore)
+- **React Router** (navigation entre les pages)
+- **Netlify** (déploiement gratuit en ligne)
 
-- [React](https://reactjs.org/) (hooks, composants fonctionnels)
-- JavaScript (ES6+)
-- HTML / CSS
-- Git + GitHub
+## 👨‍💻 Pour tester l’application
+
+L’application est déployée ici :  
+👉 [https://todolistgregory.netlify.app](https://todolistgregory.netlify.app)
+
+## 🧪 Fonctionnement
+
+1. Un utilisateur **s'inscrit ou se connecte** avec son email / mot de passe.
+2. Il peut alors **gérer sa propre liste de tâches** (ajouter, modifier, supprimer).
+3. Les tâches sont **enregistrées dans Firestore** et sont accessibles depuis **tout appareil** connecté à son compte.
+4. Possibilité de **trier les tâches par état** (toutes / terminées / à faire).
+5. Interface agréable avec **mode sombre activable**.
