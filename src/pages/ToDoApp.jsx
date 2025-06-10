@@ -44,6 +44,18 @@ export default function ToDoApp() {
     document.body.className = dark ? "dark" : "";
   }, [dark]);
 
+  // 🔔 Notification si tâches urgentes (aujourd'hui ou dépassées)
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0];
+    const urgentes = todos.filter(
+      (todo) => todo.deadline && !todo.done && todo.deadline <= today
+    );
+
+    if (urgentes.length > 0) {
+      alert(`⏰ Attention ! ${urgentes.length} tâche(s) sont urgentes ou en retard.`);
+    }
+  }, [todos]);
+
   const addTodo = async (e) => {
     e.preventDefault();
     if (newTodo.trim() === "") return;
@@ -76,6 +88,25 @@ export default function ToDoApp() {
   return (
     <div className="todo-container">
       <h1>📝 Ma To-Do List</h1>
+
+      {/* ✅ Infos globales */}
+      <div style={{ textAlign: "center", marginBottom: "15px" }}>
+        <strong>Total :</strong> {todos.length} tâches –{" "}
+        <strong>Terminées :</strong> {todos.filter((t) => t.done).length}
+      </div>
+
+      {/* 🔔 Message visuel si tâches urgentes */}
+      {todos.some(todo => todo.deadline && !todo.done && todo.deadline <= new Date().toISOString().split("T")[0]) && (
+        <div style={{
+          background: "#ffcc00",
+          padding: "10px",
+          marginBottom: "15px",
+          borderRadius: "8px",
+          textAlign: "center"
+        }}>
+          ⚠️ Vous avez des tâches urgentes ou en retard !
+        </div>
+      )}
 
       <form onSubmit={addTodo}>
         <input
