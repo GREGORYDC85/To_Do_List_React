@@ -73,13 +73,44 @@ export default function ToDoApp() {
     await deleteDoc(ref);
   };
 
-  const completedCount = todos.filter((t) => t.done).length;
-  const totalCount = todos.length;
-  const progress = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
+  const filteredTodos = todos.filter((todo) =>
+    filter === "all" ? true : filter === "done" ? todo.done : !todo.done
+  );
+
+  // 🔢 Progression calculée
+  const total = todos.length;
+  const completed = todos.filter((t) => t.done).length;
+  const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
 
   return (
     <div className="todo-container">
       <h1>📝 Ma To-Do List</h1>
+
+      {/* Barre de progression */}
+      {total > 0 && (
+        <div style={{ marginBottom: "20px" }}>
+          <div
+            style={{
+              height: "20px",
+              background: "#ddd",
+              borderRadius: "10px",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                width: `${progress}%`,
+                background: "#ffbb00",
+                height: "100%",
+                transition: "width 0.3s",
+              }}
+            ></div>
+          </div>
+          <p style={{ textAlign: "center", marginTop: "5px" }}>
+            Progression : {progress}%
+          </p>
+        </div>
+      )}
 
       <form onSubmit={addTodo}>
         <input
@@ -112,35 +143,15 @@ export default function ToDoApp() {
         <button onClick={() => setFilter("todo")}>À faire</button>
       </div>
 
-      <div className="progress-bar-container">
-        <div className="progress-bar">
-          <div
-            className="progress-fill"
-            style={{ width: `${progress}%` }}
-          ></div>
-        </div>
-        <p style={{ textAlign: "center", fontSize: "0.9em" }}>
-          {completedCount} sur {totalCount} tâches terminées
-        </p>
-      </div>
-
       <ul>
-        {todos
-          .filter((todo) =>
-            filter === "all"
-              ? true
-              : filter === "done"
-              ? todo.done
-              : !todo.done
-          )
-          .map((todo) => (
-            <TodoItem
-              key={todo.id}
-              todo={todo}
-              onUpdate={(changes) => updateTodo({ ...todo, ...changes })}
-              onDelete={() => deleteTodo(todo.id)}
-            />
-          ))}
+        {filteredTodos.map((todo) => (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onUpdate={(changes) => updateTodo({ ...todo, ...changes })}
+            onDelete={() => deleteTodo(todo.id)}
+          />
+        ))}
       </ul>
 
       <button className="theme-toggle" onClick={() => setDark(!dark)}>
